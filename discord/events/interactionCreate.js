@@ -4,7 +4,6 @@ const path = require('path');
 
 module.exports = async (client, interaction) => {
   if (interaction.user.bot) return;
-
   // Exécution des commandes
   if (interaction.type === Discord.InteractionType.ApplicationCommand) {
     try {
@@ -36,24 +35,26 @@ module.exports = async (client, interaction) => {
 
 
   // Réponse de modal, boutons et autocomplete
-  const handleInteraction = async (interaction, type, folder) => {
-    if (interaction.type === type) {
-      try {
-        let interactionFileName = `${interaction.customId}.js`;
-        if (fs.existsSync(path.join(__dirname, `../interactions/${folder}`, interactionFileName))) {
-          let file = await import(`../interactions/${folder}/${interactionFileName}`);
-          if (typeof file.run === 'function') {
-            file.run(client, interaction);
-            client.fn.log(client, 'INFO', `${folder.charAt(0).toUpperCase() + folder.slice(1)} ${interaction.customId} traité`);
-          }
-        }
-      } catch (error) {
-        console.error(`Erreur lors du traitement de ${folder} ${interaction.customId}: ${error}`);
-      }
+  const handleInteraction = async (interaction) => {
+    if (interaction.isModalSubmit()) {
+      
+      let file = await import(`../interactions/modal/${interaction.customId.split('.')[0]}.js`)
+      file.run(client, interaction);
+      client.fn.log(client, 'INFO', `modal ${interaction.customId.split('.')[0]} traité`);
+
+    }else if (interaction.isButton()) {
+
+      let file = await import(`../interactions/button/${interaction.customId.split('.')[0]}.js`)
+      file.run(client, interaction);
+      client.fn.log(client, 'INFO', `button ${interaction.customId.split('.')[0]} traité`);
+      
+    }else if (interaction.isStringSelectMenu()) {
+      let file = await import(`../interactions/menu/${interaction.customId.split('.')[0]}.js`)
+      file.run(client, interaction);
+      client.fn.log(client, 'INFO', `menu ${interaction.customId.split('.')[0]} traité`);
+      
     }
   };
 
-  handleInteraction(interaction, Discord.InteractionType.ModalSubmit, 'modal');
-  handleInteraction(interaction, Discord.InteractionType.Button, 'button');
-  handleInteraction(interaction, Discord.InteractionType.ApplicationCommandAutocomplete, 'autocomplete');
+  handleInteraction(interaction);
 };

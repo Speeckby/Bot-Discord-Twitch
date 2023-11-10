@@ -18,7 +18,6 @@ module.exports = async client => {
         });
 
     })
-
     await client.application.commands.set(commands)
 
 }
