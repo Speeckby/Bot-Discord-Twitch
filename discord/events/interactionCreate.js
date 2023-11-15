@@ -43,7 +43,9 @@ module.exports = async (client, interaction) => {
       client.fn.log(client, 'INFO', `modal ${interaction.customId.split('.')[0]} traité`);
 
     }else if (interaction.isButton()) {
-
+      if (!fs.existsSync(path.join(__dirname, '../interactions/button/', `${interaction.customId.split('.')[0]}.js`))) {
+        return
+      }
       let file = await import(`../interactions/button/${interaction.customId.split('.')[0]}.js`)
       file.run(client, interaction);
       client.fn.log(client, 'INFO', `button ${interaction.customId.split('.')[0]} traité`);
