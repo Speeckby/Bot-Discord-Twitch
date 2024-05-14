@@ -41,7 +41,7 @@ module.exports = {
         const row = new ActionRowBuilder()
                 .addComponents(nouvelle_suggest)
             
-        const message = await client.channels.cache.get("1101996211474530324").send({embeds : [embed], components : [row],})
+        const message = await client.channels.cache.get("1070456033442545755").send({embeds : [embed], components : [row],})
         await interaction.reply({
             content : `<@${interaction.member.id}> Ta suggestion a été prise en compte ! `,
             ephemeral : true

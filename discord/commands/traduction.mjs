@@ -7,7 +7,7 @@ export const command = {
     name: "traduction",
     desc: "🈶 Traduire ta phrase",
     dm: false,
-    category: "Fonction",
+    category: "Fun / Jeux",
     options: [
         {
             type: ApplicationCommandOptionType.String,

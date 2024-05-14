@@ -13,10 +13,11 @@ module.exports = {
     category: "Fun / Jeux",
     perms: null,
 
-
     async run(client, interaction) {
 
-        async function donnees(memberid,category) {
+        await interaction.deferReply();
+
+        async function donnees(memberid,category,category2 = undefined) {
             try {            
                 const db = new sql.Database('discord/stockage.db', sql.OPEN_READWRITE, (err) => {
                     if (err) {
@@ -35,22 +36,53 @@ module.exports = {
                             }
         
                             if (rows && rows.length > 0) {
-                                const newnumber = rows[0][category] + 1;
-        
-                                db.run(`UPDATE motus SET ${category} = ? WHERE id = ?`, newnumber, "1020053727677263892", (err) => {
-                                    if (err) {
-                                        console.error(err.message);
+        						if (category2 === undefined ) {
+                                    const newnumber = rows[0][category] + 1;
+                                    db.run(`UPDATE motus SET ${category} = ? WHERE id = ?`, newnumber, memberid, (err) => {
+                                        if (err) {
+                                            console.error(err.message);
+                                            reject(err);
+                                        } else {
+                                            console.log("Mise à jour réussie !");
+                                            resolve();
+                                        }
+                                	});
+                                }else {
+                                    const newnumber = rows[0][category] + 1;
+                                    const newnumber2 = rows[0][category2] + 1;
+                                    db.run(`UPDATE motus SET ${category} = ?, ${category2} = ? WHERE id = ?`, newnumber, newnumber2, memberid, (err) => {
+                                        if (err) {
+                                            console.error(err.message);
+                                            reject(err);
+                                        } else {
+                                            console.log("Mise à jour réussie !");
+                                            resolve();
+                                        }
+                                    });
+                                }
+                                
+                            } else {
+                                 db.run(`INSERT INTO motus (id, ${category}) VALUES (?, ?)`,memberid, 1, (err) => {
+                              	   if (err) {
+                                      console.error(err.message);
                                         reject(err);
                                     } else {
                                         console.log("Mise à jour réussie !");
                                         resolve();
                                     }
-                                });
-                            } else {
-                                console.log("Aucune ligne trouvée pour l'ID spécifié.");
-                                resolve();
-                            }
-                        });
+                              	if (category2 != undefined) {
+                                   db.run(`UPDATE motus SET ${category2} = 1 WHERE id = ?`, memberid, (err) => {
+                                        if (err) {
+                                            console.error(err.message);
+                                            reject(err);
+                                        } else {
+                                            console.log("Mise à jour réussie !");
+                                            resolve();
+                                        }
+                                	});
+                                }
+                            })
+                        }});
                     });
                 });
         
@@ -108,7 +140,7 @@ module.exports = {
 		const row = new ActionRowBuilder()
 			.addComponents(harder,hard,normal,easy,cancel);
 
-        const reponse = await interaction.reply({
+        const reponse = await interaction.editReply({
             embeds : [embed],
             components: [row],
         });
@@ -217,8 +249,7 @@ module.exports = {
                                         embeds :  [embed],
                                         components : [],
                                     })
-                                    donnees(interaction.member.id,'victoire')
-                                    donnees(interaction.member.id,confirmation.customId)
+                                    donnees(interaction.member.id,'victoires',confirmation.customId)
                                     interaction.channel.send({ content: ` GG <@${message.member.id}> tu as gagné en ${essai} essais sur 6 !`})
                                     fini = true 
                                     collector.stop()
@@ -248,7 +279,7 @@ module.exports = {
                 collector.on('end', (message) => {
                     if (!fini) {
                         donnees(interaction.member.id,'defaites')
-                        interaction.channel.send({ content: `<@${message.member.id}> Tu as perdu pour inactivité, le mot était ${removeAccents(mot[rang])} !`})
+                        interaction.channel.send({ content: `<@${interaction.member.id}> Tu as perdu pour inactivité, le mot était ${removeAccents(mot[rang])} !`})
                     }
                 })  
             } else if (confirmation.customId === 'cancel') {

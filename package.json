@@ -13,11 +13,14 @@
     "colors": "^1.4.0",
     "deepl-node": "^1.11.0",
     "discord.js": "^14.14.1",
+    "express": "^4.19.2",
     "dotenv": "^16.3.1",
     "figlet": "^1.7.0",
+    "mysql": "^2.18.1",
     "fs": "^0.0.1-security",
     "gtts": "^0.2.1",
     "sqlite3": "^5.1.6",
+    "lodash": "^4.17.21",
     "word-definition": "^2.1.6"
   }
 }

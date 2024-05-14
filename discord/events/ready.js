@@ -19,6 +19,7 @@ module.exports = async client => {
         }], 
         status: 'online'
     });
+    
     await loadCommands(client)
     await loadCommandsMjs(client)
     await loadSlashCommands(client)
