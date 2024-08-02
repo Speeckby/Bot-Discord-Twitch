@@ -1,5 +1,5 @@
 const { fork } = require('child_process');
-const filesToRun = ['discord/index.js'];//'twitch/main.js',
+const filesToRun = ['discord/index.js', 'twitch/main.js'];//'twitch/main.js',
 const {loadavg, cpus, totalmem} = require("os");
 const {text} = require('figlet');
 

@@ -14,7 +14,7 @@ class ReloadCmd extends Command {
         });
     }
 
-    async run(client, channel, content, user, args) {
+    async run(client, channel, user, args) {
         if(!args[1]) {
             return client.say(channel, `@${user.username}, No event specified!`)
         } else {

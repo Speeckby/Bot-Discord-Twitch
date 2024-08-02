@@ -25,7 +25,7 @@ class Bot extends client {
                             const command = require(join(__dirname, "commands", folders[i], `${reload_command}.js`));
                             this.commands.delete(command.name)
                             this.commands.set(command.name, command);
-                            console.log(`${green('[Commands] Reloaded ${reload_command}')}`)
+                            console.log(green(`[Commands] Reloaded ${reload_command}`))
                             resolve(`${reload_command} has been reloaded`)
                         } catch (error) {
                             console.log(`${red('[Commands]')} Failed to load command ${reload_command}: ${error.stack || error}`)

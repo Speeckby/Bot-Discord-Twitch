@@ -15,6 +15,6 @@ loadFunctions(client)
 loadEvents(client)
 
 
-//process.on("unhandledRejection", (e) => { client.fn.crash(client,e) })
-//process.on("uncaughtException", (e) => { client.fn.crash(client,e) })
-//process.on("uncaughtExceptionMonitor", (e) => { client.fn.crash(client,e) })
+process.on("unhandledRejection", (e) => { client.fn.crash(client,e) })
+process.on("uncaughtException", (e) => { client.fn.crash(client,e) })
+process.on("uncaughtExceptionMonitor", (e) => { client.fn.crash(client,e) })

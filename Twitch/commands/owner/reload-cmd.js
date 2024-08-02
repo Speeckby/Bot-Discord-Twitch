@@ -14,13 +14,13 @@ class ReloadCmd extends Command {
         });
     }
 
-    async run(client, channel, content, user, args) {
+    async run(client, channel, user, args) {
         if(!args[1]) {
             return client.say(channel, `@${user.username}, No command specified!`)
         } else {
             args.shift();
             client.reloadCommand(args.join(" ")).then((res) => {
-                client.say(channel `@${user.username}, ${res}`)
+                client.say(channel, `@${user.username}, ${res}`)
             })
         }
     }

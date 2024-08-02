@@ -1,4 +1,3 @@
-
 'use strict';
 const Command = require("../../structure/Command.js");
 
@@ -8,11 +7,11 @@ class a123 extends Command {
             name: '123',
             category: 'fun',
             description: 'Dire qqchose',
-            usage: '123 <username> <reason>'
+            usage: '123'
         });
     };
 
-    async run(client, channel, user, args) {
+    async run(client, channel) {
         client.say(channel, "M A L A I S E");
     };
 };

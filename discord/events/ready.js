@@ -2,7 +2,6 @@ const Discord = require('discord.js')
 
 const loadSlashCommands = require('../loaders/loadSlashCommands.js')
 const loadCommands = require("../loaders/loadCommands.js")
-const loadCommandsMjs = require('../loaders/loadCommandsMjs.js')
 
 module.exports = async client => {
     
@@ -21,7 +20,6 @@ module.exports = async client => {
     });
     
     await loadCommands(client)
-    await loadCommandsMjs(client)
     await loadSlashCommands(client)
     
     setTimeout(() => {

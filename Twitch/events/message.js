@@ -49,7 +49,7 @@ module.exports = async(client, channel, user, content, self) => {
         }
     }
     try {
-        command.run(client, channel, content, user, args)
+        command.run(client, channel, user, args)
     } catch (err) {
         client.emit('Erreur',err);
     }
