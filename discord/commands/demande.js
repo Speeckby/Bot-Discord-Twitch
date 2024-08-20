@@ -1,4 +1,3 @@
-const Discord = require('discord.js')
 const { ApplicationCommandOptionType } = require('discord.js')
 
 module.exports = {

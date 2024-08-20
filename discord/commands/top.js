@@ -7,7 +7,7 @@ module.exports = {
     desc: "Obtenir le classement du serveur 🥇",
     usage: "/top",
     dm: true,
-    category: "Informations",
+    category: "Information",
     perms: null,
     options: [
         {

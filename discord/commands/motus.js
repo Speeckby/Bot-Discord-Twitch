@@ -19,6 +19,7 @@ module.exports = {
 
         async function donnees(memberid,category,category2 = undefined) {
             try {            
+
                 const db = new sql.Database('discord/stockage.db', sql.OPEN_READWRITE, (err) => {
                     if (err) {
                         console.error(err.message);

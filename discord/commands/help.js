@@ -6,7 +6,7 @@ module.exports = {
     desc: "Obtenir de l'aide sur les commandes 🛠",
     usage: "/help commande:[la commande a verifier]",
     dm: true,
-    category: "Informations",
+    category: "Information",
     perms: null,
     options: [
         {

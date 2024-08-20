@@ -3,7 +3,7 @@ module.exports = {
     desc: "Obtenir le ping 🏓 du bot",
     usage: "/ping",
     dm: true,
-    category: "Informations",
+    category: "Information",
     perms: null,
 
     async run(client, interaction, args) {

@@ -1,5 +1,4 @@
-const Discord = require('discord.js')
-const { EmbedBuilder } = require('discord.js')
+const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
 const sql = require('sqlite3')
 
 module.exports = {
@@ -7,11 +6,23 @@ module.exports = {
     desc: "Obtenir tes stats au motus",
     usage: "/stats",
     dm: false,
-    category: "Information",
+    category: "Fun / Jeux",
     perms: null,
+    options: [{
+        type: ApplicationCommandOptionType.User,
+        name: "utilisateur",
+        description: "Utilisateur à regarder",
+        required : false 
+    }],
 
     async run(client, interaction, args) {
         await interaction.deferReply();
+        let user = null
+        if (args.getUser('utilisateur')) {
+            user = await client.users.fetch(args.getUser('utilisateur'))
+        }else {
+            user = interaction.user
+        }
         let data = [];
         let db = new sql.Database('discord/stockage.db', sql.OPEN_READWRITE, (err) => {
             if (err) {
@@ -21,7 +32,7 @@ module.exports = {
         });
 
         db.serialize(() => {
-            db.all(`SELECT * FROM motus WHERE id = ?`, interaction.user.id, (err, rows) => {
+            db.all(`SELECT * FROM motus WHERE id = ?`, user.id, (err, rows) => {
                 if (err) {
                     console.error(err.message);
                 }
@@ -34,7 +45,10 @@ module.exports = {
             if (err) {
                 console.error(err.message);
             }
-        
+        if (data.length == 0) {
+            interaction.editReply({content: `L'utilisateur <@${user.id}> n'a pas encore joué au motus !`, ephemeral: true})
+            return ;
+        }
         let vd = 0
         if (data[0].defaites ==0 ) {
             vd = data[0].victoires
@@ -43,7 +57,7 @@ module.exports = {
         }
         const embed = new EmbedBuilder()
             .setAuthor({
-                name: `Stats du motus de ${interaction.user.username} :`,
+                name: `Stats du motus de ${user.username} :`,
             })
             .addFields(
                 {
@@ -62,7 +76,7 @@ module.exports = {
                 inline: true
                 },
             )
-            .setThumbnail(interaction.user.displayAvatarURL({ format: 'jpg' }))
+            .setThumbnail(user.displayAvatarURL({ format: 'jpg' }))
             .setColor(client.color)
         
         interaction.editReply({embeds : [embed]})

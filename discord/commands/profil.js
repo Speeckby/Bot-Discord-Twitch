@@ -1,6 +1,5 @@
-const { AttachmentBuilder } = require('discord.js');
+const { AttachmentBuilder, EmbedBuilder } = require('discord.js');
 const { createCanvas, Image, GlobalFonts} = require('@napi-rs/canvas');
-const { readFile } = require('fs/promises');
 const { request } = require('undici');
 
 
@@ -28,13 +27,8 @@ module.exports = {
 		const canvas = createCanvas(700, 250);
 		const context = canvas.getContext('2d');
 
-		const background = await readFile('fichiers/wallpaper.jpg');
-		const backgroundImage = new Image();
-		backgroundImage.src = background;
-		context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-
-		context.strokeStyle = '#0099ff';
-		context.strokeRect(0, 0, canvas.width, canvas.height);
+		context.fillStyle = '#2b2d31';
+		context.fillRect(0, 0, canvas.width, canvas.height);
 
 		context.font = '28px minecraft';
 		context.fillStyle = '#ffffff';
@@ -60,8 +54,14 @@ module.exports = {
 
 		// défini l'image comme une pièce-jointe
 
-		const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'profile-image.png' });
+		const attachment = new AttachmentBuilder(canvas.toBuffer('image/png'), { name: 'profil.png' });
 
-		interaction.reply({ files: [attachment] });
+		// Affiche l'image
+
+		const embed = new EmbedBuilder()
+			.setColor('#2b2d31')
+			.setImage('attachment://profil.png');
+
+		interaction.reply({ files: [attachment], embeds: [embed] });
 	}
 };
