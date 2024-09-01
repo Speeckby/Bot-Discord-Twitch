@@ -4,7 +4,7 @@ module.exports = {
     name: "suggest",
     desc: "Suggérer une idée ",
     dm: false,
-    category: "Information",
+    category: "Utilitaires",
     perms: null, 
     options: [
         {

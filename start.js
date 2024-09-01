@@ -1,4 +1,5 @@
 const { fork } = require('child_process');
+require('dotenv').config({path: "./.env"})
 const filesToRun = ['discord/index.js', 'twitch/main.js'];//'twitch/main.js',
 const {loadavg, cpus, totalmem} = require("os");
 const {text} = require('figlet');

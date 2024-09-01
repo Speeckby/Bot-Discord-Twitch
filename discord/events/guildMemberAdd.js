@@ -12,7 +12,7 @@ module.exports = async (client, user) => {
         // Utilisation d'une promesse pour attendre la fin des opérations asynchrones
         await new Promise((resolve, reject) => {
             db.serialize(() => {
-                db.all(`SELECT * FROM profil WHERE id = ?`, user.user.id, (err, rows) => {
+                db.all(`SELECT * FROM profil WHERE id = ?`, user.id, async (err, rows) => {
                     if (err) {
                         console.error(err.message);
                         reject(err);
@@ -22,7 +22,9 @@ module.exports = async (client, user) => {
                     if (rows && rows.length > 0) {
                         return ;    
                     } else {
-                        db.run(`INSERT INTO profil (name, id, xp) VALUES (?, ?, ?)`,user.user.globalName, user.user.id, 0);
+                        db.run(`INSERT INTO profil (name, id) VALUES (?, ?, ?)`,user.globalName, user.id);
+                        db.run(`INSERT INTO xp (profil_id) VALUES (?)`,user.id);
+                        resolve();
                     }
                 });
             });

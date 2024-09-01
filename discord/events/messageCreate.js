@@ -2,8 +2,17 @@ const { toInteger } = require("lodash");
 const sql = require("sqlite3")
 
 
-function calcul_xp (taille, coeff_channel) {
-    return toInteger(4*taille/10*Math.log(taille)/Math.sqrt(taille)) * coeff_channel
+function calcul_xp (taille, coeff_channel, level, xp, xp_requis, xp_total) {
+    let new_xp = toInteger(4*taille/10*Math.log(taille)/Math.sqrt(taille) * coeff_channel)
+    xp += new_xp
+
+    while (new_xp > xp_requis ) {
+        level += 1
+        new_xp -= xp_requis
+        xp_requis = (level * 6) * level + 100
+    }
+
+    return { xp : xp, level : level, xp_requis : xp_requis, xp_total : new_xp + xp_total }
 }
 module.exports = async (client, message) => {
     if (message.author.bot || message.channel.type === "DM") return;
@@ -27,28 +36,29 @@ module.exports = async (client, message) => {
         // Utilisation d'une promesse pour attendre la fin des opérations asynchrones
         await new Promise((resolve, reject) => {
             db.serialize(() => {
-                db.all(`SELECT * FROM profil WHERE id = ?`, message.author.id, (err, rows) => {
+                db.all(`SELECT * FROM profil JOIN xp ON profil.id = xp.profil_id WHERE profil_id = ? `, message.author.id, async (err, rows) => {
                     if (err) {
                         console.error(err.message);
                         reject(err);
                         return;
                     }
-
                     if (rows && rows.length > 0) {
-                        const xp = rows[0].xp + calcul_xp(taille, coeff_channel)
-                        db.run(`UPDATE profil SET xp = ? WHERE id = ?`, xp, message.author.id, (err) => {
-                            if (err) {
-                                console.error(err.message);
-                                reject(err);
-                            } else {
-                                resolve();
-                            }
-                        });
+                        let { xp, level, xp_requis, xp_total } = calcul_xp(taille, coeff_channel, rows[0].level, rows[0].xp_level, rows[0].xp_requis, rows[0].xp_total)
+                        await db.run(`UPDATE profil SET name = ? WHERE id = ?`, [message.author.globalName, message.author.id]);
+                        await db.run(`UPDATE xp SET xp_total = ?, level = ?, xp_level = ?, xp_requis = ? WHERE profil_id = ?`, [xp_total, level, xp, xp_requis, message.author.id ] );
                     } else {
-                        db.run(`INSERT INTO profil (name, id, xp) VALUES (?, ?, ?)`,message.author.globalName, message.author.id, calcul_xp(taille, coeff_channel));
+                        let { xp, level, xp_requis, xp_total } = calcul_xp(taille, coeff_channel, 0, 0, 100)
+                        await db.run(`INSERT INTO profil (name, id) VALUES (?, ?)`, [message.author.globalName, message.author.id]);
+                        await db.run(`INSERT INTO xp (profil_id, xp_total, level, xp_level, xp_requis) VALUES (?, ?, ?, ?, ?)`, [message.author.id, xp_total, level, xp, xp_requis ] );
                     }
                 });
             });
+        });
+
+        db.close((err) => {
+            if (err) {
+                console.error(err.message);
+            }
         });
     }
 }       

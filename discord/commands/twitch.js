@@ -6,7 +6,7 @@ module.exports = {
     desc: "Lier son compte Twitch pour le bot.",
     usage: "/twitch",
     dm: true,
-    category: "Information",
+    category: "Utilitaires",
     perms: null,
 
     async run(client, interaction, args) {
