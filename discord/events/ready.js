@@ -25,5 +25,4 @@ module.exports = async client => {
     setTimeout(() => {
         client.fn.log(client, "LOADERS", `${client.user.tag} online`)
     }, 4000)
-
 }

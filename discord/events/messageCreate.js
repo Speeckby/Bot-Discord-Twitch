@@ -6,9 +6,9 @@ function calcul_xp (taille, coeff_channel, level, xp, xp_requis, xp_total) {
     let new_xp = toInteger(4*taille/10*Math.log(taille)/Math.sqrt(taille) * coeff_channel)
     xp += new_xp
 
-    while (new_xp > xp_requis ) {
+    while (xp > xp_requis ) {
         level += 1
-        new_xp -= xp_requis
+        xp -= xp_requis
         xp_requis = (level * 6) * level + 100
     }
 
@@ -32,7 +32,6 @@ module.exports = async (client, message) => {
                 console.error(err.message);
             }
         });
-
         // Utilisation d'une promesse pour attendre la fin des opérations asynchrones
         await new Promise((resolve, reject) => {
             db.serialize(() => {

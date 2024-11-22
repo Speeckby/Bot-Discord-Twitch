@@ -18,7 +18,7 @@ module.exports = {
     ],
 
     async run(client, interaction, args) {
-        
+        await interaction.deferReply();
         let command;
         if (args.getString('commande')) {
             command = client.commands.get(args.getString('commande'))
@@ -32,12 +32,12 @@ module.exports = {
             })
 
             let embed = new Discord.EmbedBuilder()
-            .setColor(client.color)
-            .setTitle("Commandes")
-            .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
-            .setTimestamp()
-            .setFooter({text: "Commandes du bot"})
-            .setDescription(`Nombre de commandes: \`${client.commands.size}\`\nNombre de catégories: \`${categories.length}\``)
+                .setColor(client.color)
+                .setTitle("Commandes")
+                .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
+                .setTimestamp()
+                .setFooter({text: "Commandes du bot"})
+                .setDescription(`Nombre de commandes: \`${client.commands.size}\`\nNombre de catégories: \`${categories.length}\``)
 
             await categories.sort().forEach(async cat => {
                 let commands = client.commands.filter(cmd => cmd.category === cat)
@@ -47,7 +47,7 @@ module.exports = {
                 })
             })
 
-            interaction.reply({
+            interaction.editReply({
                 embeds: [embed]
             })
         } else {
@@ -62,14 +62,14 @@ module.exports = {
             ].join('\n')
 
             let embed = new Discord.EmbedBuilder()
-            .setColor(client.color)
-            .setTitle(`Commande ${command.name}`)
-            .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
-            .setTimestamp()
-            .setFooter({text: "Commandes du bot"})
-            .setDescription(description)
+                .setColor(client.color)
+                .setTitle(`Commande ${command.name}`)
+                .setThumbnail(client.user.displayAvatarURL({dynamic: true}))
+                .setTimestamp()
+                .setFooter({text: "Commandes du bot"})
+                .setDescription(description)
 
-            interaction.reply({
+            interaction.editReply({
                 embeds: [embed]
             })
         }

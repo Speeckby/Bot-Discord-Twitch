@@ -22,7 +22,7 @@ module.exports = async (client, user) => {
                     if (rows && rows.length > 0) {
                         return ;    
                     } else {
-                        db.run(`INSERT INTO profil (name, id) VALUES (?, ?, ?)`,user.globalName, user.id);
+                        db.run(`INSERT INTO profil (name, id) VALUES (?, ?)`,user.globalName, user.id);
                         db.run(`INSERT INTO xp (profil_id) VALUES (?)`,user.id);
                         resolve();
                     }

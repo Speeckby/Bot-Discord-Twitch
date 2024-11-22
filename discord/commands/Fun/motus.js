@@ -1,6 +1,6 @@
 const { ActionRowBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder} = require('discord.js');
-const emotes = require("../../fichiers/emotes.json");
-const mots = require('../../fichiers/mots.json');
+const emotes = require("../../../fichiers/emotes.json");
+const mots = require('../../../fichiers/mots.json');
 const wd = require("word-definition");
 const sql = require("sqlite3")
 
@@ -10,7 +10,7 @@ module.exports = {
     usage: "/suttom",
     aliases: ["suttom"],
     dm: true,
-    category: "Fun / Jeux",
+    category: "Fun",
     perms: null,
 
     async run(client, interaction) {

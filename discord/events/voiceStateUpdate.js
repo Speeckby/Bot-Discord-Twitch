@@ -1,7 +1,7 @@
 const { PermissionFlagsBits, EmbedBuilder, ActionRowBuilder, ButtonStyle, ButtonBuilder } = require('discord.js');
 
 module.exports = async function (client, oldState, newState) {
-    const id_channel = "1093653561214251213"
+    const id_channel = "1279903180246749255"
     client.vocal? client.vocal : client.vocal = {}
     
     if (oldState.channel?.members.size == 0 && client.vocal.hasOwnProperty(oldState.channelId)) {

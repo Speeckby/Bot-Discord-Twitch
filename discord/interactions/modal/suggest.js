@@ -1,6 +1,7 @@
 const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle } = require("discord.js")
 module.exports = {
     run: async(client,interaction) => {
+		await interaction.deferReply({ ephemeral: true });
         let color = ""
         let img = ""
         if (interaction.customId.split('.')[1] === 'twitch') {
@@ -42,7 +43,7 @@ module.exports = {
                 .addComponents(nouvelle_suggest)
             
         const message = await client.channels.cache.get("1070456033442545755").send({embeds : [embed], components : [row],})
-        await interaction.reply({
+        await interaction.followUp({
             content : `<@${interaction.member.id}> Ta suggestion a été prise en compte ! `,
             ephemeral : true
         })
