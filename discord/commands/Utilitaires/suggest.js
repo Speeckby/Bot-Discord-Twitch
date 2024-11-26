@@ -3,9 +3,6 @@ const { ModalBuilder, ApplicationCommandOptionType, TextInputBuilder, ActionRowB
 module.exports = {
     name: "suggest",
     desc: "Suggérer une idée ",
-    dm: false,
-    category: "Utilitaires",
-    perms: null, 
     options: [
         {
             type: ApplicationCommandOptionType.String,

@@ -1,11 +1,16 @@
 require('dotenv').config({path: "./.env"})
 const app = require('express')();
 const fs = require('fs');
-const cors = require('cors');
+const Bot = require('./structure/client.js')
 
+
+const bot = new Bot() 
+
+process.on("unhandledRejection", (e) => { console.error(e) });
+process.on("uncaughtException", (e) => { console.error(e) });
+process.on("uncaughtExceptionMonitor", (e) => { console.error(e) });
 
 //  Gestion du site web
-app.use(cors());
 app.use(async (req, res, next) => {
     let requestedPage = req.path;
     switch (requestedPage) {
@@ -25,7 +30,6 @@ app.use(async (req, res, next) => {
                 const file = require(filePath);
                 file(req, res);
             } else {
-                console.log(requestedPage + " err")
                 // Sinon, renvoyer une erreur 404
                 res.status(404).sendFile(__dirname + '/website/404.html');
             }
@@ -34,6 +38,4 @@ app.use(async (req, res, next) => {
 });
 app.listen(process.env.PORT, () => {});
 
-process.on("unhandledRejection", (e) => { console.error(e) });
-process.on("uncaughtException", (e) => { console.error(e) });
-process.on("uncaughtExceptionMonitor", (e) => { console.error(e) });
+bot.start();

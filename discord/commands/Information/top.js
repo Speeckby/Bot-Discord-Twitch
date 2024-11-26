@@ -1,14 +1,9 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require("discord.js");
 
-const sql = require("sqlite3").verbose();
-
 module.exports = {
     name: "top",
     desc: "Obtenir le classement du serveur 🥇",
     usage: "/top",
-    dm: true,
-    category: "Information",
-    perms: null,
     options: [
         {
             type: ApplicationCommandOptionType.String,

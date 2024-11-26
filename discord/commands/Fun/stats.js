@@ -1,13 +1,9 @@
 const { EmbedBuilder, ApplicationCommandOptionType } = require('discord.js')
-const sql = require('sqlite3')
 
 module.exports = {
     name: "stats",
     desc: "Obtenir tes stats au motus",
     usage: "/stats",
-    dm: false,
-    category: "Fun",
-    perms: null,
     options: [{
         type: ApplicationCommandOptionType.User,
         name: "utilisateur",

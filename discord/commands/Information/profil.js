@@ -1,7 +1,6 @@
 const { AttachmentBuilder, ApplicationCommandOptionType } = require('discord.js');
 const { createCanvas, Image, GlobalFonts, loadImage} = require('@napi-rs/canvas');
-const sql = require("sqlite3");
-const liste_level = require('../../../fichiers/level.json');
+const liste_level = require('../../../global/fichiers/level.json');
 let halloween = ["670558004017496064", "774756792038457354", "817730920768602132", "885152848143327255", "493029571013247015", "744329133126975520", "1020053727677263892"]
 
 function Back2line(ctx, text, x, y, width, height) {
@@ -67,9 +66,6 @@ module.exports = {
     name: "profil",
     desc: "Regarder le profil d'un membre",
     usage: "/profil",
-    dm: false,
-    category: "Information",
-    perms: null,
 	options : [
 		{
 			type : ApplicationCommandOptionType.User,

@@ -1,13 +1,9 @@
 const { ApplicationCommandOptionType } = require('discord.js');
-const sqlite3 = require("sqlite3");
 
 module.exports = {
     name: "banniere",
     desc: "Changer la bannière de ton profil",
     usage: "/bannière",
-    dm: false,
-    category: "Utilitaires",
-    perms: null,
     options: [
         {
             name: "lien",

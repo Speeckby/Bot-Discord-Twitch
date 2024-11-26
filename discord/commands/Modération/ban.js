@@ -4,8 +4,6 @@ const { PermissionFlagsBits, ApplicationCommandOptionType } = require('discord.j
 module.exports = {
     name: "ban",
     desc: "Bannir un membre ",
-    dm: false,
-    category: "Modération",
     perms: PermissionFlagsBits.BanMembers,
     options: [
         {

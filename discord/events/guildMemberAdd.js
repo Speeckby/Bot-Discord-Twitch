@@ -1,4 +1,4 @@
-const sql = require("sqlite3")
+//const sql = require("sqlite3")
 
 module.exports = async (client, user) => {
     // Ajout du membre dans la db

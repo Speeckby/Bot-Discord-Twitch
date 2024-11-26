@@ -4,9 +4,6 @@ module.exports = {
     name: "vocal",
     desc: "Changer les paramètres du vocal",
     usage: "/vocal",
-    dm: false,
-    category: "Utilitaires",
-    perms: null,
 
     async run(client, interaction, args) {
         let user = false 

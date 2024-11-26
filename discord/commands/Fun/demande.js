@@ -4,9 +4,6 @@ module.exports = {
     name: "demande",
     desc: "Dis à un membre qu'on lui a pas demandé 😴",
     usage: "/demande",
-    dm: false,
-    category: "Fun",
-    perms: null,
     options: [
         {
             type: ApplicationCommandOptionType.User,

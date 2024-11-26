@@ -1,16 +1,13 @@
 const Discord = require('discord.js')
 
-const loadSlashCommands = require('../loaders/loadSlashCommands.js')
-const loadCommands = require("../loaders/loadCommands.js")
-
-module.exports = async client => {
+module.exports = async (client) => {
     
     client.fn.log(client, "STARTING", `------------------`)
     client.fn.log(client, "STARTING", `Bot loading starts`)
     client.fn.log(client, "LOADERS", `loading Functions`)
     client.fn.log(client, "LOADERS", `loading Events`)
 
-    client.user.setPresence({ 
+    client.discord.user.setPresence({ 
         activities: [{ 
             name: 'twitch.tv/speeckby', 
             type: Discord.ActivityType.Streaming, 
@@ -19,10 +16,10 @@ module.exports = async client => {
         status: 'online'
     });
     
-    await loadCommands(client)
-    await loadSlashCommands(client)
+    await client.loadCommands()
+    await client.loadSlashCommands()
     
     setTimeout(() => {
-        client.fn.log(client, "LOADERS", `${client.user.tag} online`)
+        client.fn.log(client, "LOADERS", `${client.discord.user.tag} online`)
     }, 4000)
 }

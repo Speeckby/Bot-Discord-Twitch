@@ -1,13 +1,9 @@
 const {ApplicationCommandOptionType} = require('discord.js');
-const sql = require("sqlite3")
 
 module.exports = {
     name: "badge",
     desc: "Changer les badges du profil",
     usage: "/badge",
-    dm: false,
-    category: "Utilitaires",
-    perms: null,
     options : [
         {
             name: "ordre",

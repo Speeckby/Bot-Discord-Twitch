@@ -9,8 +9,8 @@ module.exports = async (client, interaction) => {
   if (interaction.type === Discord.InteractionType.ApplicationCommand) {
     try {
       let commandFileName = `${interaction.commandName}`;
-      if (client.commands.get(commandFileName)) {
-        let commandFilePath = path.join(__dirname, `../commands/${client.commands.get(commandFileName).category}`, `${commandFileName}.js`);
+      if (client.discord.commands.get(commandFileName)) {
+        let commandFilePath = path.join(__dirname, `../commands/${client.discord.commands.get(commandFileName).category}`, `${commandFileName}.js`);
         let command;
         command = require(commandFilePath);
 

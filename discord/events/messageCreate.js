@@ -1,5 +1,5 @@
 const { toInteger } = require("lodash");
-const sql = require("sqlite3")
+//const sql = require("sqlite3")
 
 
 function calcul_xp (taille, coeff_channel, level, xp, xp_requis, xp_total) {

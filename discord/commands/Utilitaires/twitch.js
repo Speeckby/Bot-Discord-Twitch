@@ -1,13 +1,9 @@
-const sql = require("sqlite3")
 const { EmbedBuilder, ButtonStyle, ButtonBuilder, ActionRowBuilder } = require("discord.js")
 
 module.exports = {
     name: "twitch",
     desc: "Lier son compte Twitch pour le bot.",
     usage: "/twitch",
-    dm: true,
-    category: "Utilitaires",
-    perms: null,
 
     async run(client, interaction, args) {
         await interaction.deferReply( { ephemeral: true } );
