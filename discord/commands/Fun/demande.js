@@ -15,7 +15,7 @@ module.exports = {
 
     async run(client, interaction, args) {
         try {
-            let user = await client.users.fetch(args.getUser('membre').id)
+            let user = await client.discord.users.fetch(args.getUser('membre').id)
             if (!user) return client.fn.erreur(interaction, "Membre non trouvé !")
             interaction.reply(`On a pas demandé ${user} 🤓👆 !`)
         }catch(e) {

@@ -4,7 +4,7 @@ module.exports = async (interaction, msg) => {
     
     let client = interaction.client
 
-    client.fn.log(client, "FUNCTION", `error (in command)`)
+    client.fn.log(client, "error", interaction.name, msg)
     
     let errEmbed = new Discord.EmbedBuilder()
     .setTitle(":x: Oups, petit problème")

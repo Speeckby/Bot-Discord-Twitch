@@ -2,10 +2,10 @@ const Discord = require('discord.js')
 
 module.exports = async (client) => {
     
-    client.fn.log(client, "STARTING", `------------------`)
-    client.fn.log(client, "STARTING", `Bot loading starts`)
-    client.fn.log(client, "LOADERS", `loading Functions`)
-    client.fn.log(client, "LOADERS", `loading Events`)
+    client.fn.log(client, "starting", "STARTING", `------------------`)
+    client.fn.log(client, "starting", "LOADERS", `Bot loading starts`)
+    client.fn.log(client, "starting", "DISCORD", `loading Functions`)
+    client.fn.log(client, "starting", "DISCORD", `loading Events`)
 
     client.discord.user.setPresence({ 
         activities: [{ 
@@ -20,6 +20,6 @@ module.exports = async (client) => {
     await client.loadSlashCommands()
     
     setTimeout(() => {
-        client.fn.log(client, "LOADERS", `${client.discord.user.tag} online`)
+        client.fn.log(client, "starting", "DISCORD", `${client.discord.user.tag} online`)
     }, 4000)
 }

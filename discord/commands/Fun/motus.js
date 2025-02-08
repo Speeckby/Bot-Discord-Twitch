@@ -40,8 +40,7 @@ module.exports = {
                                             console.error(err.message);
                                             reject(err);
                                         } else {
-                                            console.log("Mise à jour réussie !");
-                                            resolve();
+                                            client.fn.log(client, "db", "UPDATE", `Mise à jour du nombre de défaites de ${memberid} dans la table motus effectuée !`);                                            resolve();
                                         }
                                 	});
                                 }else {
@@ -52,8 +51,7 @@ module.exports = {
                                             console.error(err.message);
                                             reject(err);
                                         } else {
-                                            console.log("Mise à jour réussie !");
-                                            resolve();
+                                            client.fn.log(client, "db", "UPDATE", `Mise à jour du nombre de victoire de ${memberid} dans la table motus effectuée !`);                                            resolve();
                                         }
                                     });
                                 }
@@ -64,7 +62,7 @@ module.exports = {
                                       console.error(err.message);
                                         reject(err);
                                     } else {
-                                        console.log("Mise à jour réussie !");
+                                        client.fn.log(client, "db", "INSERT", `Insertion de ${memberid} dans la table motus effectuée !`);
                                         resolve();
                                     }
                               	if (category2 != undefined) {
@@ -73,7 +71,7 @@ module.exports = {
                                             console.error(err.message);
                                             reject(err);
                                         } else {
-                                            console.log("Mise à jour réussie !");
+                                            client.fn.log(client, "db", "UPDATE", `Mise à jour du nombre de victoire de ${memberid} dans la table motus effectuée !`);
                                             resolve();
                                         }
                                 	});

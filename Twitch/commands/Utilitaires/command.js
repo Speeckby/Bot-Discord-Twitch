@@ -1,4 +1,5 @@
 const fs = require("fs");
+const Command = require("../../../structure/command.js");
 
 module.exports = {
     name: 'command',
@@ -7,64 +8,76 @@ module.exports = {
     usage: 'cmd <add|rm|edit> <nom> <nouvelle commande>',
     example: "cmd add coucou Hello World !",
     run: async(client, channel, user, args) => {
-
-        if (args.length < 4) return await client.twitch.say(channel, `⚙️ La réponse envoyée par la commande n'a pas été fournie !`);
         
+        if (args.length < 2) return await client.twitch.say(channel, `⚙️ Le type de la commande n'a pas été fournie (add, rm, edit)!`);
+        if (args.length < 3) return await client.twitch.say(channel, `⚙️ Le nom de la commande concernée n'a pas été fourni !`);
+        if (args.length < 4 && args[1] != "rm") return await client.twitch.say(channel, `⚙️ La réponse envoyée par la commande n'a pas été fournie !`);
+
         // Initialisation des variables
-        let classe = "";
-        let nom = args[2].split("!")[1];
-        let param = args[1];
-        let reponse = '';
+        let nom = args[2];
 
         // La réponse
-        switch (param) {
+        switch (args[1]) {
             case "add":
-                console.log(args)
-                caractère = "⚙️ Commande ajoutée !";
+                if (fs.existsSync(`twitch/commands/Custom/${nom}.js`)) {
+                    client.twitch.say(channel, `⚙️ La commande ${nom} existe déjà !`);
+                    return ;
+                } else {
+                    fs.appendFile(`twitch/commands/Custom/${nom}.js`,`module.exports = {
+    name: '${nom}',
+    desc: 'Dire ${args[3]}',
+    usage: '!${nom}',
+    run: async(client, channel, user, args) => {
+        client.twitch.say(channel, '${args[3]}')
+    }
+}`, 
+                    function (err) {
+                            if (err) throw err;
+                            delete require.cache[require.resolve(`../Custom/${nom}.js`)];
+                            const cmd = require(`../Custom/${nom}.js`);
+                            client.twitch.commands.set(cmd.name, new Command(cmd))
+                            client.twitch.say(channel, `⚙️ Commande ${nom} ajoutée !`);
+                        }
+                    );
+                }
                 break;
             case "rm":
-                caractère = "⚙️ Commande supprimée !";
+                if (!fs.existsSync(`twitch/commands/Custom/${nom}.js`)) {
+                    client.twitch.say(channel, `⚙️ La commande ${nom} n'existe pas !`);
+                    return ;
+                } else {
+                    fs.unlinkSync(`twitch/commands/Custom/${nom}.js`);
+                    client.twitch.commands.delete(nom);
+                    client.twitch.say(channel, `⚙️ Commande ${nom} supprimée !`);
+                }
                 break;
             case "edit":
-                caractère = "⚙️ Commande modifiée !";
+                if (!fs.existsSync(`twitch/commands/Custom/${nom}.js`)) {
+                    client.twitch.say(channel, `⚙️ La commande ${nom} n'existe pas !`);
+                    return ;
+                } else {
+                    client.twitch.commands.delete(nom);
+                    fs.writeFile(`twitch/commands/Custom/${nom}.js`, `module.exports = {
+    name: '${nom}',
+    desc: 'Dire ${args[3]}',
+    usage: '!${nom}',
+    run: async(client, channel, user, args) => {
+        client.twitch.say(channel, '${args[3]}')
+    }
+}`, 
+                    function (err) {
+                            if (err) throw err;
+                            delete require.cache[require.resolve(`../Custom/${nom}.js`)];
+                            const cmd = require(`../Custom/${nom}.js`);
+                            client.twitch.commands.set(cmd.name, new Command(cmd))
+                            client.twitch.say(channel, `⚙️ Commande ${nom} modifiée !`);
+                        }
+                    )
+                }
                 break;
             default:
-                client.twitch.say(channel, `⚙️ Le paramètre fourni n'existe pas !`);
+                client.twitch.say(channel, `⚙️ Le paramètre fourni n'existe pas (add, rm, edit)!`);
                 return ;
         }
-        if (args.length > 3) {
-            reponse += '"';
-            for (let a = 3; a < args.length ; a+=1) {
-                reponse += args[a] + " ";
-            };
-            reponse+= '"'; 
-        }else {
-        client.twitch.say(channel, `⚙️ La réponse envoyée par la commande n'est pas été fournie !`);
-        return ; 
-        }
-        if (isNaN(nom[0]) == false) {
-            classe += "a";
-            classe += nom;
-        } else {
-            classe += nom;
-        }
-        fs.appendFile(`twitch/commands/Custom/${nom}.js`,`
-
-module.exports = {
-    name: '${nom}',
-    category: 'fun',
-    description: '${reponse}',
-    usage: '${nom}',
-    run : async (client, channel) => {
-        client.twitch.say(channel, "${caractère}")
-    }
-}`,
-        function (err) {
-            if (err) throw err;
-            console.log('Fichier créé !');
-            client.reloadCommand(nom).then((res) => {
-                client.twitch.say(channel, `⚙️ Commande ${nom} créée !`)
-            });
-        })
     }
 }

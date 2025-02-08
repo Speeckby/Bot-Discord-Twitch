@@ -16,7 +16,7 @@ module.exports = async (client, interaction) => {
 
         if (typeof command.run === 'function') {
           command.run(client, interaction, interaction.options, client.db);
-          client.fn.log(client, 'INFO', `Commande ${interaction.commandName} exécutée par ${interaction.user.tag}`);
+          client.fn.log(client, 'discord', "DISCORD", `Commande ${interaction.commandName} exécutée par ${interaction.user.tag}`);
         }
       } 
     } catch (error) {
@@ -31,7 +31,7 @@ module.exports = async (client, interaction) => {
       
       let file = await import(`../interactions/modal/${interaction.customId.split('.')[0]}.js`)
       file.run(client, interaction);
-      client.fn.log(client, 'INFO', `modal ${interaction.customId.split('.')[0]} traité`);
+      client.fn.log(client, "discord", "DISCORD", `modal ${interaction.customId.split('.')[0]} utilisé par ${interaction.user.tag}`);
 
     } else if (interaction.isButton()) {
       if (!fs.existsSync(path.join(__dirname, '../interactions/button/', `${interaction.customId.split('.')[0]}.js`))) {
@@ -39,12 +39,12 @@ module.exports = async (client, interaction) => {
       }
       let file = await import(`../interactions/button/${interaction.customId.split('.')[0]}.js`)
       file.run(client, interaction);
-      client.fn.log(client, 'INFO', `button ${interaction.customId.split('.')[0]} traité`);
+      client.fn.log(client, "discord", "DISCORD", `button ${interaction.customId.split('.')[0]} utilisé par ${interaction.user.tag}`);
       
     } else if (interaction.isStringSelectMenu()) {
       let file = await import(`../interactions/menu/${interaction.customId.split('.')[0]}.js`)
       file.run(client, interaction);
-      client.fn.log(client, 'INFO', `menu ${interaction.customId.split('.')[0]} traité`);
+      client.fn.log(client, "discord", "DISCORD", `menu ${interaction.customId.split('.')[0]} utilisé par ${interaction.user.tag}`);
       
     } else if (interaction.isAutocomplete()) {
       let file = await import(`../interactions/autocomplete/${interaction.commandName}.js`)

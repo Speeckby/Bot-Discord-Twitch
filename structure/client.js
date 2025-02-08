@@ -29,7 +29,7 @@ module.exports = class Bot {
 
     async start() {
         this.loadEvents();
-        await this.discord.login(process.env.TOKEN_TEST);
+        await this.discord.login(process.env.TOKEN);
         await this.twitch.connect();
     }
 
@@ -44,7 +44,7 @@ module.exports = class Bot {
     
         db.connect(function(e) {
             if (e) return crash(client, e)
-            this.fn.log(client, "LOADERS", `loading Database`)
+            this.fn.log(client, "starting", "DATABASE", `loading Database`)
         })
     
         return db
@@ -57,7 +57,6 @@ module.exports = class Bot {
             .forEach(async file => {
                 let fonction = require(`../global/functions/${file}`)
                 this.fn[file.split('.')[0]] = fonction
-                console.log(`[setup] command ${file} load`)
             })
     }
 
@@ -76,8 +75,9 @@ module.exports = class Bot {
     }
 
     loadCommands() {
+        // Chargement des commandes Discord
         this.discord.commands = new Collection();
-        this.fn.log(this, "LOADERS", `loading Discord Commands`)
+        this.fn.log(this, "starting", "DISCORD", `loading Commands`)
         readdirSync("./discord/commands")
         .forEach(async folders => {
             readdirSync(`./discord/commands/${folders}`)
@@ -90,8 +90,9 @@ module.exports = class Bot {
             })
         })
 
+        // Chargement des commandes Twitch
         this.twitch.commands = new Collection();
-        this.fn.log(this, "LOADERS", `loading Twitch Commands`)
+        this.fn.log(this, "starting", "TWITCH", `loading Commands`)
         readdirSync("./twitch/commands")
         .forEach(async folders => {
             readdirSync(`./twitch/commands/${folders}`)
@@ -106,7 +107,7 @@ module.exports = class Bot {
     }
 
     async loadSlashCommands() {
-        this.fn.log(this, "LOADERS", `loading SlashCommands`)
+        this.fn.log(this, "starting", "DISCORD", `loading SlashCommands`)
 
         let commands = []
         this.discord.commands.forEach(async command => {
