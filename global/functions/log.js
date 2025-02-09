@@ -8,7 +8,7 @@ import('chalk').then((chalk) => {
 module.exports = async (client, type, subtype, msg) => {
 
     let reponse = {
-        discord: `**[${type}]** ${msg} [<t:${parseInt(Date.now()/1000)}:d> <t:${parseInt(Date.now()/1000)}:T> / <t:${parseInt(Date.now()/1000)}:R>]`,
+        discord: `**[${subtype}]** ${msg} [<t:${parseInt(Date.now()/1000)}:d> <t:${parseInt(Date.now()/1000)}:T> / <t:${parseInt(Date.now()/1000)}:R>]`,
         console: `${new Date().toLocaleString()} [${subtype}] ${msg}`
 	}
     switch (type) {
