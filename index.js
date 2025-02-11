@@ -3,7 +3,6 @@ const app = require('express')();
 const fs = require('fs');
 const Bot = require('./structure/client.js')
 
-
 const bot = new Bot() 
 
 process.on("unhandledRejection", (e) => { console.error(e) });

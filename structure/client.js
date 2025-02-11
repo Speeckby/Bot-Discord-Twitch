@@ -1,8 +1,8 @@
-const { createConnection } = require('mysql'),
-    { ApplicationCommandType, Client: DiscordClient, Collection} = require('discord.js'),
+const { ApplicationCommandType, Client: DiscordClient, Collection} = require('discord.js'),
     { client: TwitchClient} = require('tmi.js'),
     { readdirSync } = require('fs'), 
-    Command = require('./command.js');
+    Command = require('./command.js'),
+    Database = require('./database.js');
 
 module.exports = class Bot {
     constructor() {
@@ -22,32 +22,14 @@ module.exports = class Bot {
         this.vocal = {}
         this.color = "#a14ca8"
 
-
         this.loadFunctions();
-        //this.db = this.loadDatabase();
+        this.loadEvents();
     }
 
     async start() {
-        this.loadEvents();
-        await this.discord.login(process.env.TOKEN);
+        await this.discord.login(process.env.TOKEN_TEST);
+        this.db = new Database(process.env.DB_HOST, process.env.DB_USER, process.env.DB_PASSWORD, process.env.DB_DATABASE, process.env.DB_PORT, this);
         await this.twitch.connect();
-    }
-
-    loadDatabase() {
-        let db = createConnection({
-            host: process.env.DBhost,
-            user: process.env.DBuser,
-            password: process.env.DBpassword,
-            database: process.env.DBdatabase,
-            port: process.env.DBport
-        })
-    
-        db.connect(function(e) {
-            if (e) return crash(client, e)
-            this.fn.log(client, "starting", "DATABASE", `loading Database`)
-        })
-    
-        return db
     }
 
     loadFunctions() {

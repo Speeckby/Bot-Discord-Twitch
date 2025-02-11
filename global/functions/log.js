@@ -1,4 +1,5 @@
 const { response } = require('express');
+const erreur = require('./erreur');
 
 let chalks;
 import('chalk').then((chalk) => {
@@ -26,13 +27,21 @@ module.exports = async (client, type, subtype, msg) => {
             reponse.color = "#afe67c"
             break;
         }
+        case "db" : {
+            reponse.color = "#becefe"
+            break;
+        }
         default : {
             reponse.color = "#0dbc79"
             break;
         }
     }
 
-    client.discord.channels.cache.get(process.env.DiscordConsoleId).send(reponse.discord)
+    try {
+        client.discord.channels.cache.get(process.env.DiscordConsoleId).send(reponse.discord)
+    } catch (error) {
+        console.log(chalks.hex("#ff0000") ("Erreur survenue lors de l'envoi d'un log sur discord"))
+    }
     console.log(chalks.hex(reponse.color) (reponse.console));
     
 }
